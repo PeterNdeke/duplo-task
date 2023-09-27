@@ -1,0 +1,13 @@
+export const perPage = 30;
+export const PLATFORM_CODE = "022";
+
+export enum HTTPStatus {
+  BAD_REQUEST = 400,
+  NOT_FOUND = 404,
+  OK = 200,
+  CREATED = 201,
+  INTERNAL_SERVER_ERROR = 500,
+  VALIDATION_ERROR = 422,
+  UNAUTHORIZED_ERROR = 401,
+  PERMISSION_ERROR = 403,
+}
