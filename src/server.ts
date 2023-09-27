@@ -10,7 +10,7 @@ export default class Server {
 
   constructor() {
     this.server = new InversifyExpressServer(container, null, {
-      rootPath: "/duplo-service",
+      rootPath: "/logs-service",
     });
 
     this.server.setConfig((app01) => {
