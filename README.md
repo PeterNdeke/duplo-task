@@ -26,9 +26,11 @@ create mongodb and add your db credentils on the .env file
 
 run command npm run start:dev to start application
 
-navigate to http://localhost:9050/duplo-service/v1/health and see the running instant of the app
+navigate to http://localhost:9050/logs-service/v1/health and see the running instant of the app
 ```
 
 ## Api Documention Links
 
+https://documenter.getpostman.com/view/4857405/2s9YJZ3jRm
 
+-BaseUrl: http://52.87.206.98

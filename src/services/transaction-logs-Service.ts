@@ -67,7 +67,7 @@ export class TransactionLogsService {
         businessID
       );
     const numOfTrans = transLogs.length;
-    console.log(numOfTrans);
+
     const businessCreditScore = amountSum / Number(numOfTrans / 100);
 
     return {
@@ -90,16 +90,20 @@ export class TransactionLogsService {
         today,
         businessID,
       });
-
+    if (!result.orders.length) {
+      throw GenericFriendlyError.createNotFoundError(
+        `No transaction log found for ${businessID}`
+      );
+    }
     if (today) {
       return {
         total_number_of_orders_today: result.orders.length,
-        toatl_amount_of_orders_today: result.amount,
+        toatl_amount_of_orders_today: result.amount[0].amount as number,
       };
     } else {
       return {
         total_number_of_orders: result.orders.length,
-        toatl_amount_of_orders: result.amount,
+        toatl_amount_of_orders: result.amount[0].amount as number,
       };
     }
   }
