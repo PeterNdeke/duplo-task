@@ -63,11 +63,11 @@ export class TransactionLogsRepository {
   }) {
     if (today) {
       const startOfTheDay = DateService.getStartOfTheDay(new Date());
-      const orders = await transactionLogsModel
+      const todayOrders = await transactionLogsModel
         .find({ businessID, createdAt: { $gte: startOfTheDay } })
-        .sort({ createdAt: "asc" })
+        .sort({ createdAt: "desc" })
         .exec();
-      const totalAmount = await transactionLogsModel.aggregate([
+      const todayTotalAmount = await transactionLogsModel.aggregate([
         {
           $match: {
             businessID: businessID,
@@ -77,18 +77,25 @@ export class TransactionLogsRepository {
 
         { $group: { _id: null, amount: { $sum: "$amount" } } },
       ]);
-      return { orders, amount: await totalAmount };
-    } else {
-      const orders = await transactionLogsModel
-        .find({ businessID })
-        .sort({ createdAt: -1 })
-        .exec();
-      const totalAmount = await transactionLogsModel.aggregate([
-        { $match: { businessID: businessID } },
-
-        { $group: { _id: null, amount: { $sum: "$amount" } } },
-      ]);
-      return { orders, amount: await totalAmount };
+      console.log(todayTotalAmount);
+      return {
+        today_orders: todayOrders,
+        today_total_amount: await todayTotalAmount[0],
+      };
     }
+
+    const orders = await transactionLogsModel
+      .find({ businessID })
+      .sort({ createdAt: "desc" })
+      .exec();
+    const totalAmount = await transactionLogsModel.aggregate([
+      { $match: { businessID: businessID } },
+
+      { $group: { _id: null, amount: { $sum: "$amount" } } },
+    ]);
+    return {
+      total_orders: orders,
+      total_amount: await totalAmount[0],
+    };
   }
 }

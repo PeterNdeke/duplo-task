@@ -90,20 +90,17 @@ export class TransactionLogsService {
         today,
         businessID,
       });
-    if (!result.orders.length) {
-      throw GenericFriendlyError.createNotFoundError(
-        `No transaction log found for ${businessID}`
-      );
-    }
+
     if (today) {
       return {
-        total_number_of_orders_today: result.orders.length,
-        toatl_amount_of_orders_today: result.amount[0].amount as number,
+        total_number_of_orders_today: result.today_orders?.length || 0,
+        total_amount_of_orders_today:
+          (result.today_total_amount?.amount as number) || 0,
       };
     } else {
       return {
-        total_number_of_orders: result.orders.length,
-        toatl_amount_of_orders: result.amount[0].amount as number,
+        total_number_of_orders: result.total_orders?.length || 0,
+        toatl_amount_of_orders: (result.total_amount?.amount as number) || 0,
       };
     }
   }
