@@ -65,7 +65,6 @@ export class TransactionLogsRepository {
       const startOfTheDay = DateService.getStartOfTheDay(new Date());
       const todayOrders = await transactionLogsModel
         .find({ businessID, createdAt: { $gte: startOfTheDay } })
-        .sort({ createdAt: "desc" })
         .exec();
       const todayTotalAmount = await transactionLogsModel.aggregate([
         {
@@ -84,10 +83,7 @@ export class TransactionLogsRepository {
       };
     }
 
-    const orders = await transactionLogsModel
-      .find({ businessID })
-      .sort({ createdAt: "desc" })
-      .exec();
+    const orders = await transactionLogsModel.find({ businessID }).exec();
     const totalAmount = await transactionLogsModel.aggregate([
       { $match: { businessID: businessID } },
 

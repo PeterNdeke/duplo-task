@@ -68,12 +68,14 @@ export class TransactionLogsService {
       );
     const numOfTrans = transLogs.length;
 
-    const businessCreditScore = amountSum / Number(numOfTrans / 100);
+    const businessCreditScore = Math.round(
+      amountSum / Number(numOfTrans / 100)
+    );
 
     return {
       businessID,
       number_of_transactions: numOfTrans,
-      total_amount_paid: amountSum,
+      total_amount_paid: Math.round(amountSum),
       credit_score: businessCreditScore,
     };
   }
@@ -85,6 +87,15 @@ export class TransactionLogsService {
     today: boolean | undefined;
     businessID: string;
   }) {
+    const transLogs =
+      await this.transactionLogsRepository.fetchAllTransLogsForBusiness(
+        businessID
+      );
+    if (!transLogs?.length) {
+      throw GenericFriendlyError.createNotFoundError(
+        `No transaction log found for ${businessID}`
+      );
+    }
     const result =
       await this.transactionLogsRepository.fetchAllOrderDetailsForBusiness({
         today,
@@ -95,12 +106,13 @@ export class TransactionLogsService {
       return {
         total_number_of_orders_today: result.today_orders?.length || 0,
         total_amount_of_orders_today:
-          (result.today_total_amount?.amount as number) || 0,
+          Math.round(result.today_total_amount?.amount as number) || 0,
       };
     } else {
       return {
         total_number_of_orders: result.total_orders?.length || 0,
-        toatl_amount_of_orders: (result.total_amount?.amount as number) || 0,
+        toatl_amount_of_orders:
+          Math.round(result.total_amount?.amount as number) || 0,
       };
     }
   }

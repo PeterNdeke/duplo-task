@@ -33,4 +33,4 @@ navigate to http://localhost:9050/logs-service/v1/health and see the running ins
 
 https://documenter.getpostman.com/view/4857405/2s9YJZ3jRm
 
--BaseUrl: http://52.87.206.98
+-BaseUrl: https://ndekepeter.tech
