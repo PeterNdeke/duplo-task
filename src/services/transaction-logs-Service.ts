@@ -68,15 +68,13 @@ export class TransactionLogsService {
       );
     const numOfTrans = transLogs.length;
 
-    const businessCreditScore = Math.round(
-      amountSum / Number(numOfTrans / 100)
-    );
+    const businessCreditScore = amountSum / Number(numOfTrans * 100);
 
     return {
       businessID,
       number_of_transactions: numOfTrans,
       total_amount_paid: Math.round(amountSum),
-      credit_score: businessCreditScore,
+      credit_score: Math.round(businessCreditScore),
     };
   }
 
